@@ -153,6 +153,29 @@ while not done:
     })
     state = next_state
     s = state_idx[state]
+def simulate_after_training(env, q_table, n_episodes=100):
+    """Simulasikan setelah training, buat data untuk dibandingkan"""
+    state_to_index = {s: i for i, s in enumerate(env.unique_states)}
+    results = []
+    for _ in range(n_episodes):
+        state = env.reset()
+        total_profit = 0
+        done = False
+        while not done:
+            state_index = state_to_index[state]
+            action = np.argmax(q_table[state_index])
+            result = env.step(action)
+            if len(result) == 4:
+                next_state, reward, done, _ = result
+            else:
+                next_state, reward, done = result
+            total_profit += reward
+            state = next_state
+        results.append(total_profit)
+
+    df = pd.DataFrame({"profit": results})
+    df.to_csv("simulation_after_training.csv", index=False)
+    return df
 
 # ✅ Simpan simulasi final
 sim_df = pd.DataFrame(sim_data)
