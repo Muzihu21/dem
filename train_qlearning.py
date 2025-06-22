@@ -135,7 +135,31 @@ def train(output_dir="output", episodes=1000, max_steps=10):
     # ⚡️ 6. Done
     # ==================================================
     print("\n✅ Training Complete!\nFiles saved to:", output_dir)
+# ==================================================
+# ⚡️ 7. Simulasi Final Setelah Training
+# ==================================================
+state = env.reset()
+s = state_idx[state]
+done = False
+sim_data = []
+while not done:
+    action_idx = np.argmax(agent.q_table[s])
+    action = env.actions[action_idx]
+    next_state, reward, done = env.step(action)
+    sim_data.append({
+        "state": state,
+        "action": action,
+        "profit": reward
+    })
+    state = next_state
+    s = state_idx[state]
 
+# ✅ Simpan simulasi final
+sim_df = pd.DataFrame(sim_data)
+sim_df.to_csv(f"{output_dir}/simulation_after_training.csv", index=False)
+
+print("\n=== ✅ Simulasi Final Setelah Training ===")
+print(sim_df)
 
 if __name__ == "__main__":
     print("🔧 Running Simplified & Exportable Q-learning...")
