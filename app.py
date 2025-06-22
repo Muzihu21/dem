@@ -5,11 +5,20 @@ import seaborn as sns
 from env_qlearning import PenjualanEnv
 # ========== Setup ==========
 st.set_page_config(page_title="Q-Learning Harga", layout="wide")
+q_table_file = "q_table.npy"
+
+if os.path.exists(q_table_file):
+    q_table = np.load(q_table_file)
+else:
+    st.warning(f"⚠️ File `{q_table_file}` belum ditemukan. Silakan jalankan training dahulu.")
+    q_table = None
 
 # ========== Load Environment ==========
 env = PenjualanEnv()
 env.unique_states = list(set(env.states))
 env.n_states = len(env.unique_states)
+
+
 
 # ========== Sidebar Menu ==========
 menu = st.sidebar.radio("Pilih Halaman", [
