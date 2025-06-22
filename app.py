@@ -2,8 +2,7 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from q_learning_env import PenjualanEnv
-
+from env_qlearning import PenjualanEnv
 # ========== Setup ==========
 st.set_page_config(page_title="Q-Learning Harga", layout="wide")
 
