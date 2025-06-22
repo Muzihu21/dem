@@ -183,6 +183,15 @@ sim_df.to_csv(f"{output_dir}/simulation_after_training.csv", index=False)
 
 print("\n=== ✅ Simulasi Final Setelah Training ===")
 print(sim_df)
+q_table_new, rewards = train_q_learning(env, alpha, gamma, epsilon, episodes)
+np.save("q_table.npy", q_table_new)
+np.save("rewards_per_episode.npy", rewards)
+
+# ⚡️ Simulasikan setelah training
+simulate_after_training(env, q_table_new, n_episodes=100)
+
+st.success("✅ Training selesai dan data simulasi disimpan.")
+
 
 if __name__ == "__main__":
     print("🔧 Running Simplified & Exportable Q-learning...")
